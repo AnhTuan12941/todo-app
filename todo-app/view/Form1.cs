@@ -108,8 +108,16 @@ public partial class Form1 : Form
     {
         if (e.KeyCode == Keys.Enter)
         {
+            HideDueDatePicker();
             string content = tbCreateTodo.Text;
-            _todoService.Create(content, _currentTag);
+            int priority = 1;
+            if (cbPriority.SelectedItem != null)
+            {
+                string text = cbPriority.SelectedItem.ToString()!;
+                if (text.Contains("Cao")) priority = 3;
+                else if (text.Contains("Trung")) priority = 2;
+            }
+            _todoService.Create(content, _currentTag, priority);
 
             tbCreateTodo.Clear();
             LoadTodos();

@@ -124,6 +124,14 @@ partial class Form1
         // 
         // lblUsername
         // 
+        colPriority = new System.Windows.Forms.DataGridViewComboBoxColumn();
+        colPriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        colPriority.HeaderText = "Ưu tiên";
+        colPriority.MinimumWidth = 6;
+        colPriority.Name = "colPriority";
+        colPriority.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
+        colPriority.Items.AddRange(new object[] { "3 - Cao", "2 - Trung bình", "1 - Thấp" });
+
         lblUsername.Dock = System.Windows.Forms.DockStyle.Top;
         lblUsername.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
         lblUsername.Location = new System.Drawing.Point(0, 0);
@@ -142,6 +150,27 @@ partial class Form1
         tbCreateTodo.Size = new System.Drawing.Size(869, 23);
         tbCreateTodo.TabIndex = 3;
         tbCreateTodo.KeyDown += tbCreateTodo_KeyDown;
+
+        lblPriority = new System.Windows.Forms.Label();
+        lblPriority.Text = "Mức độ ưu tiên:";
+        lblPriority.Location = new System.Drawing.Point(0, 80);
+        lblPriority.Size = new System.Drawing.Size(120, 23);
+        lblPriority.Name = "lblPriority";
+        splitContainer1.Panel2.Controls.Add(lblPriority);
+
+        // ComboBox chọn mức độ ưu tiên
+        cbPriority = new System.Windows.Forms.ComboBox();
+        cbPriority.Name = "cbPriority";
+        cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        cbPriority.Items.AddRange(new object[] {
+            "3 - Cao",
+            "2 - Trung bình",
+            "1 - Thấp"
+        });
+        cbPriority.SelectedIndex = 2; // mặc định là "1 - Thấp"
+        cbPriority.Location = new System.Drawing.Point(130, 80);
+        cbPriority.Size = new System.Drawing.Size(150, 23);
+        splitContainer1.Panel2.Controls.Add(cbPriority);
         // 
         // todoDataGridView
         // 
@@ -152,7 +181,7 @@ partial class Form1
         todoDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
         todoDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
         todoDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        todoDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colStatus, colContent, colDueDate, colDelete });
+        todoDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colStatus, colContent, colPriority, colDueDate, colDelete });
         todoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
         todoDataGridView.Location = new System.Drawing.Point(0, 54);
         todoDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -254,7 +283,12 @@ partial class Form1
 
     private System.Windows.Forms.DataGridViewTextBoxColumn colTag;
 
+    private System.Windows.Forms.DataGridViewComboBoxColumn colPriority;
+
     private System.Windows.Forms.DataGridView tagDataGridView;
+
+    private System.Windows.Forms.ComboBox cbPriority;
+    private System.Windows.Forms.Label lblPriority;
 
     private System.Windows.Forms.DataGridViewCheckBoxColumn colStatus;
     private System.Windows.Forms.DataGridViewTextBoxColumn colContent;

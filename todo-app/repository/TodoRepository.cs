@@ -9,11 +9,12 @@ public class TodoRepository : Repository
     {
         using (SqlConnection connection = Database.GetConnection())
         {
-            string sql = "INSERT INTO Todos (Content, TagId) VALUES (@Content, @TagId); SELECT CAST(SCOPE_IDENTITY() AS int);";
+            string sql = "INSERT INTO Todos (Content, TagId, Priority) VALUES (@Content, @TagId, @Priority); SELECT CAST(SCOPE_IDENTITY() AS int);";
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@Content", todo.Content);
                 command.Parameters.AddWithValue("@TagId", todo.TagId);
+                command.Parameters.AddWithValue("@Priority", todo.Priority);
 
                 var result = command.ExecuteScalar();
                 if (result != null && int.TryParse(result.ToString(), out int newId))
@@ -61,7 +62,7 @@ public class TodoRepository : Repository
         
         using (SqlConnection connection = Database.GetConnection())
         {
-            string sql = "SELECT Id, Content, IsDone, Note, DueDate, TagId FROM Todos WHERE TagId = @TagId";
+            string sql = "SELECT Id, Content, IsDone, Note, DueDate, TagId, Priority FROM Todos WHERE TagId = @TagId";
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@TagId", tagId);
@@ -76,7 +77,8 @@ public class TodoRepository : Repository
                             IsDone = reader.GetBoolean(reader.GetOrdinal("IsDone")),
                             Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? string.Empty : reader.GetString(reader.GetOrdinal("Note")),
                             DueDate = reader.IsDBNull(reader.GetOrdinal("DueDate")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("DueDate")),
-                            TagId = reader.GetInt32(reader.GetOrdinal("TagId"))
+                            TagId = reader.GetInt32(reader.GetOrdinal("TagId")),
+                            Priority = reader.GetInt32(reader.GetOrdinal("Priority"))
                         };
                         todos.Add(todo);
                     }
@@ -91,7 +93,7 @@ public class TodoRepository : Repository
     {
         using (SqlConnection connection = Database.GetConnection())
         {
-            string sql = "UPDATE Todos SET Content = @Content, IsDone = @IsDone, Note = @Note, DueDate = @DueDate WHERE Id = @Id";
+            string sql = "UPDATE Todos SET Content = @Content, IsDone = @IsDone, Note = @Note, Priority= @Priority,DueDate = @DueDate WHERE Id = @Id";
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@Content", todo.Content);
@@ -99,6 +101,7 @@ public class TodoRepository : Repository
                 command.Parameters.AddWithValue("@Id", todo.Id);
                 command.Parameters.AddWithValue("@Note", todo.Note);
                 command.Parameters.AddWithValue("@DueDate", (object?)todo.DueDate ?? DBNull.Value);
+                command.Parameters.AddWithValue("@Priority", todo.Priority);
                 command.ExecuteNonQuery();
             }
         }
