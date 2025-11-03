@@ -14,7 +14,7 @@ public class TodoService
         _todoRepository = controller.TodoRepository;
     }
     
-    public void Create(string? content, Tag? tag)
+    public void Create(string? content, Tag? tag, int priority)
     {
         if (string.IsNullOrEmpty(content))
         {
@@ -28,6 +28,7 @@ public class TodoService
         Todo todo = new Todo();
         todo.Content = content;
         todo.TagId = tag.Id;
+        todo.Priority = priority;
         _todoRepository.Create(todo);
     }
     
