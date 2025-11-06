@@ -15,8 +15,8 @@ public partial class MainForm : Form
     private LoggedInAccount _loggedInAccount;
 
     private Tag? _currentTag = null;
-    private List<Todo>? _currentTodos = null;
     private Todo? _currentTodo = null;
+
     public MainForm()
     {
         InitializeComponent();
@@ -41,7 +41,6 @@ public partial class MainForm : Form
         }
 
         LoadTags();
-        LoadTodos();
 
         HideRightSideBar();
     }
@@ -68,7 +67,7 @@ public partial class MainForm : Form
         }
     }
 
-    private void LoadTodos()
+    private void LoadTodos(List<Todo> datasource)
     {
         if (_currentTag == null)
         {
@@ -76,9 +75,8 @@ public partial class MainForm : Form
             return;
         }
 
-        _currentTodos = _todoService.FindByTagId(_currentTag.Id);
         dgvTodos.DataSource = null;
-        dgvTodos.DataSource = _currentTodos.OrderBy(t => t.IsDone).ToList();
+        dgvTodos.DataSource = datasource.OrderBy(t => t.IsDone).ToList();
 
         try
         {
@@ -132,7 +130,8 @@ public partial class MainForm : Form
 
         _currentTag = selectedTag;
         lbTagName.Text = _currentTag.Name;
-        LoadTodos();
+        List<Todo> todos = _todoService.FindByTagId(_currentTag.Id);
+        LoadTodos(todos);
     }
 
     private void btnHideRightSideBar_Click(object sender, EventArgs e)
@@ -146,10 +145,12 @@ public partial class MainForm : Form
         {
             return;
         }
-        rbtnCheckTodo.Checked = todo.IsDone;
+        cbStatusTodo.Checked = todo.IsDone;
         lbCurrentTodoName.Text = todo.Content;
         dtpCurrentTodoDueDate.Value = todo.DueDate ?? DateTime.Now;
         tbCurrentTodoNote.Text = todo.Note;
+
+        lbCurrentTodoTagName.Text = _tagService.FindByTodoId(todo.Id).Name;
 
         panelRightSideBar.Width = 300;
     }
@@ -201,7 +202,8 @@ public partial class MainForm : Form
         _todoService.Create(content, dueDate, _currentTag);
 
         tbCreateTodo.Clear();
-        LoadTodos();
+        List<Todo> todos = _todoService.FindByTagId(_currentTag!.Id);
+        LoadTodos(todos);
     }
 
     private void btnDeleteTodo_Click(object sender, EventArgs e)
@@ -213,7 +215,8 @@ public partial class MainForm : Form
 
         _todoService.Delete(_currentTodo.Id);
         HideRightSideBar();
-        LoadTodos();
+        List<Todo> todos = _todoService.FindByTagId(_currentTag!.Id);
+        LoadTodos(todos);
     }
 
     private void btnUserMenu_Click(object sender, EventArgs e)
@@ -276,28 +279,78 @@ public partial class MainForm : Form
     {
         _tagService.Delete(_currentTag.Id);
         _currentTag = null;
+
         LoadTags();
-        LoadTodos();
+        LoadTodos(null);
     }
 
-    //private void btnExportFileExcel_Click(object sender, EventArgs e)
-    //{
-    //    sfdExcel.Filter = "Excel Workbook|*.xlsx";
-    //    sfdExcel.Title = "Chọn vị trí lưu file Excel";
-    //    sfdExcel.FileName = $"Todo_By_Tags_{DateTime.Now:yyyyMMdd}.xlsx";
-    //    if (sfdExcel.ShowDialog() == DialogResult.OK)
-    //    {
-    //        if (_fileService.ExportFileExcel(sfdExcel.FileName))
-    //        {
-    //            MessageBox.Show("Xuất file Excel thành công!\nĐã lưu tại: " + sfdExcel.FileName,
-    //                "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    //        }
-    //    }
-    //}
+    private void cbStatusTodo_CheckedChanged(object sender, EventArgs e)
+    {
+        if (_currentTodo == null)
+        {
+            return;
+        }
+        bool isDone = cbStatusTodo.Checked;
+        _todoService.CheckTodo(_currentTodo.Id, isDone);
+        List<Todo> todos = _todoService.FindByTagId(_currentTag!.Id);
+        LoadTodos(todos);
+    }
 
-    //private void btnShowChart_Click(object sender, EventArgs e)
-    //{
-    //    var chartForm = new view.ChartForm(_controller, _currentTag!);
-    //    chartForm.ShowDialog();
-    //}
+    private void dgvTodos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.RowIndex < 0)
+        {
+            return;
+        }
+
+        var selectedTodo = dgvTodos.Rows[e.RowIndex].DataBoundItem as Todo;
+        if (selectedTodo == null)
+        {
+            return;
+        }
+
+        _todoService.CheckTodo(selectedTodo.Id, !selectedTodo.IsDone);
+
+        List<Todo> todos = _todoService.FindByTagId(_currentTag!.Id);
+        LoadTodos(todos);
+    }
+
+    private void dtpCurrentTodoDueDate_ValueChanged(object sender, EventArgs e)
+    {
+        if (_currentTodo == null)
+        {
+            return;
+        }
+
+        DateTime dueDate = dtpCurrentTodoDueDate.Value;
+        _todoService.UpdateDueDate(_currentTodo.Id, dueDate);
+    }
+
+    private void tbCurrentTodoNote_Leave(object sender, EventArgs e)
+    {
+        if (_currentTodo == null)
+        {
+            return;
+        }
+
+        string note = tbCurrentTodoNote.Text;
+
+        if (_currentTodo.Note != note)
+        {
+            _todoService.UpdateNote(_currentTodo.Id, note);
+            _currentTodo.Note = note;
+        }
+    }
+
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+        string keyword = tbSearchTodo.Text;
+        if (string.IsNullOrWhiteSpace(keyword))
+        {
+            return;
+        }
+
+        List<Todo> todos = _todoService.SearchTodos(keyword);
+        LoadTodos(todos);
+    }
 }

@@ -42,14 +42,9 @@ public class TagService
         return tags.ToList();
     }
 
-    public Tag FindByName(string? name)
+    public Tag FindByTodoId(int id)
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            throw new AppException("Tên danh sách không hợp lệ.");
-        }
-
-        Tag? tag = _tagRepository.FindByName(name);
+        var tag = _tagRepository.FindByTodoId(id);
         if (tag == null)
         {
             throw new AppException("Tag không tồn tại.");
