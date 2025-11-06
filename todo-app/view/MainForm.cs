@@ -254,6 +254,32 @@ public partial class MainForm : Form
         }
     }
 
+    private void btnTagMenu_Click(object sender, EventArgs e)
+    {
+        Control control = sender as Control;
+
+        Point menuPosition = new Point(
+            0,
+            control.Height
+        );
+
+        cmsTagMenu.Show(control, menuPosition);
+    }
+
+    private void miDrawChart_Click(object sender, EventArgs e)
+    {
+        var chartForm = new view.ChartForm(_controller, _currentTag!);
+        chartForm.ShowDialog();
+    }
+
+    private void miDeleteTag_Click(object sender, EventArgs e)
+    {
+        _tagService.Delete(_currentTag.Id);
+        _currentTag = null;
+        LoadTags();
+        LoadTodos();
+    }
+
     //private void btnExportFileExcel_Click(object sender, EventArgs e)
     //{
     //    sfdExcel.Filter = "Excel Workbook|*.xlsx";
