@@ -16,12 +16,10 @@ public partial class Form1 : Form
 
     private Tag? _currentTag = null;
     private List<Todo>? _currentTodos = null;
-
-    private DateTimePicker? _dueDatePicker;
-    private int _dueDateRowIndex = -1;
-    private int _dueDateColIndex = -1;
-    private bool _isDuePickerDroppedDown = false;
-
+    public Form1()
+    {
+        InitializeComponent();
+    }
     public Form1(Controller controller)
     {
         InitializeComponent();
@@ -41,56 +39,58 @@ public partial class Form1 : Form
             loginForm.ShowDialog();
         }
 
-        if (!_loggedInAccount.IsLoggedIn())
+        LoadTags();
+        LoadTodos();
+    }
+
+    private void btnToggleLeftSideBar_Click(object sender, EventArgs e)
+    {
+        panelLeftSideBar.Width = panelLeftSideBar.Width == 0 ? 250 : 0;
+    }
+
+    private void LoadTags()
+    {
+        var tags = _tagService.FindAll();
+        dgvTags.DataSource = tags.OrderBy(t => t.Name).ToList();
+
+        try
         {
-            this.BeginInvoke(new Action(() => this.Close()));
+            dgvTags.Columns["Id"].Visible = false;
+            dgvTags.Columns["AccountId"].Visible = false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private void LoadTodos()
+    {
+        if (_currentTag == null)
+        {
+            dgvTodos.DataSource = null;
             return;
         }
 
-        lblUsername.Text = "Xin chào, " + _loggedInAccount.GetUsername();
+        _currentTodos = _todoService.FindByTagId(_currentTag.Id);
+        dgvTodos.DataSource = null;
+        dgvTodos.DataSource = _currentTodos.OrderBy(t => t.IsDone).ToList();
 
-        ConfigTagDataGridView();
-        ConfigTodoDataGridView();
-        
-        LoadTags();
-
-        InitDueDatePicker();
-
-        todoDataGridView.CellClick += todoDataGridView_CellClick;
-        todoDataGridView.Scroll += (_, __) => HideDueDatePicker();
-        todoDataGridView.ColumnWidthChanged += (_, __) => HideDueDatePicker();
-        todoDataGridView.CellFormatting += todoDataGridView_CellFormatting;
-    }
-
-    // CONFIGURATION
-    private void ConfigTodoDataGridView()
-    {
-        todoDataGridView.AutoGenerateColumns = false;
-        if (todoDataGridView.Columns["colStatus"] != null)
+        try
         {
-            todoDataGridView.Columns["colStatus"].DataPropertyName = "IsDone";
+            dgvTodos.Columns["Id"].Visible = false;
+            dgvTodos.Columns["Note"].Visible = false;
+            dgvTodos.Columns["DueDate"].Visible = false;
+            dgvTodos.Columns["TagId"].Visible = false;
+            dgvTodos.Columns["Priority"].Visible = false;
         }
-
-        if (todoDataGridView.Columns["colContent"] != null)
+        catch (Exception e)
         {
-            todoDataGridView.Columns["colContent"].DataPropertyName = "Content";
-        }
-
-        if (todoDataGridView.Columns["colDelete"] != null)
-        {
+            Console.WriteLine(e);
+            throw;
         }
     }
-
-    private void ConfigTagDataGridView()
-    {
-        tagDataGridView.AutoGenerateColumns = false;
-        if (tagDataGridView.Columns["colTag"] != null)
-        {
-            tagDataGridView.Columns["colTag"].DataPropertyName = "Name";
-        }
-    }
-
-    // HANDLE EVENT
 
     private void tbCreateTag_KeyDown(object sender, KeyEventArgs e)
     {
@@ -108,279 +108,51 @@ public partial class Form1 : Form
     {
         if (e.KeyCode == Keys.Enter)
         {
-            HideDueDatePicker();
             string content = tbCreateTodo.Text;
-            int priority = 1;
-            if (cbPriority.SelectedItem != null)
-            {
-                string text = cbPriority.SelectedItem.ToString()!;
-                if (text.Contains("Cao")) priority = 3;
-                else if (text.Contains("Trung")) priority = 2;
-            }
-            _todoService.Create(content, _currentTag, priority);
+            _todoService.Create(content, _currentTag);
 
             tbCreateTodo.Clear();
             LoadTodos();
         }
     }
 
-    private void todoDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    private void dgvTags_CellClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0)
-            return;
-
-        var column = todoDataGridView.Columns[e.ColumnIndex];
-
-        if (column is DataGridViewButtonColumn && column.Name == "colDelete")
-        {
-            var todo = todoDataGridView.Rows[e.RowIndex].DataBoundItem as Todo;
-            if (todo == null)
-                return;
-
-            var result = MessageBox.Show("Xóa tác vụ này?", "Xác nhận", MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-            if (result != DialogResult.Yes)
-                return;
-
-            _todoService.Delete(todo.Id);
-            LoadTodos();
-        }
-        else if (column is DataGridViewCheckBoxColumn && column.Name == "colStatus")
-        {
-            todoDataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            todoDataGridView_CellValueChanged(sender, e);
-        }
-        else if (column is DataGridViewTextBoxColumn && column.Name == "colContent")
-        {
-            Todo currentTodo = todoDataGridView.Rows[e.RowIndex].DataBoundItem as Todo;
-            if (currentTodo == null)
-                return;
-
-            var formNote = new Note(currentTodo, _controller);
-            formNote.ShowDialog();
-        }
-    }
-
-    private void todoDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-    {
-        if (e.RowIndex < 0)
-            return;
-
-        if (todoDataGridView.Columns[e.ColumnIndex].Name == "colStatus")
-        {
-            var todo = todoDataGridView.Rows[e.RowIndex].DataBoundItem as Todo;
-            if (todo == null)
-                return;
-
-            _todoService.Update(todo);
-
-            LoadTodos();
-        }
-    }
-
-    private void LoadTags()
-    {
-        var tags = _tagService.FindAll();
-        tagDataGridView.DataSource = tags.OrderBy(t => t.Name).ToList();
-    }
-
-    private void LoadTodos()
-    {
-        if (_currentTag == null)
-        {
-            todoDataGridView.DataSource = null;
-            return;
-        }
-
-        _currentTodos = _todoService.FindByTagId(_currentTag.Id);
-        todoDataGridView.DataSource = null;
-        todoDataGridView.DataSource = _currentTodos.OrderBy(t => t.IsDone).ToList();
-    }
-
-    private void tagDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
-    {
-        int rowIndex = e.RowIndex;
-        int colIndex = e.ColumnIndex;
-
-        if (rowIndex < 0 || colIndex < 0)
         {
             return;
         }
+    
+        var selectedTag = dgvTags.Rows[e.RowIndex].DataBoundItem as Tag;
 
-        var cell = tagDataGridView.Rows[rowIndex].Cells[colIndex];
-        var value = cell.Value;
-
-        if (value is string)
+        if (selectedTag == null)
         {
-            _currentTag = _tagService.FindByName((string)value);
-            lbTagName.Text = _currentTag.Name;
+            return;
         }
-
+        
+        _currentTag = selectedTag;
+        lbTagName.Text = _currentTag.Name;
         LoadTodos();
     }
 
-    private void tagDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-        if (e.RowIndex < 0)
-            return;
+    //private void btnExportFileExcel_Click(object sender, EventArgs e)
+    //{
+    //    sfdExcel.Filter = "Excel Workbook|*.xlsx";
+    //    sfdExcel.Title = "Chọn vị trí lưu file Excel";
+    //    sfdExcel.FileName = $"Todo_By_Tags_{DateTime.Now:yyyyMMdd}.xlsx";
+    //    if (sfdExcel.ShowDialog() == DialogResult.OK)
+    //    {
+    //        if (_fileService.ExportFileExcel(sfdExcel.FileName))
+    //        {
+    //            MessageBox.Show("Xuất file Excel thành công!\nĐã lưu tại: " + sfdExcel.FileName,
+    //                "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    //        }
+    //    }
+    //}
 
-        var column = tagDataGridView.Columns[e.ColumnIndex];
-
-        if (column is DataGridViewButtonColumn && column.Name == "colDeleteTag")
-        {
-            var tag = tagDataGridView.Rows[e.RowIndex].DataBoundItem as Tag;
-            if (tag == null)
-                return;
-
-            var result = MessageBox.Show("Xóa danh sách này?", "Xác nhận", MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-            if (result != DialogResult.Yes)
-                return;
-
-            _tagService.Delete(tag.Id);
-            LoadTags();
-            LoadTodos();
-        }
-    }
-
-    private void btnExportFileExcel_Click(object sender, EventArgs e)
-    {
-        sfdExcel.Filter = "Excel Workbook|*.xlsx";
-        sfdExcel.Title = "Chọn vị trí lưu file Excel";
-        sfdExcel.FileName = $"Todo_By_Tags_{DateTime.Now:yyyyMMdd}.xlsx";
-        if (sfdExcel.ShowDialog() == DialogResult.OK)
-        {
-            if (_fileService.ExportFileExcel(sfdExcel.FileName))
-            {
-                MessageBox.Show("Xuất file Excel thành công!\nĐã lưu tại: " + sfdExcel.FileName,
-                    "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-    }
-
-    private void btnShowChart_Click(object sender, EventArgs e)
-    {
-        var chartForm = new view.ChartForm(_controller, _currentTag!);
-        chartForm.ShowDialog();
-    }
-
-    private void InitDueDatePicker()
-    {
-        _dueDatePicker = new DateTimePicker
-        {
-            Format = DateTimePickerFormat.Custom,
-            CustomFormat = "dd/MM/yyyy HH:mm",
-            ShowCheckBox = true,
-            Visible = false
-        };
-
-        _dueDatePicker.DropDown += (_, __) => _isDuePickerDroppedDown = true;
-        _dueDatePicker.CloseUp += (_, __) =>
-        {
-            _isDuePickerDroppedDown = false;
-            CommitDueDateFromPicker();
-        };
-
-        _dueDatePicker.ValueChanged += (_, __) =>
-        {
-            if (_dueDatePicker.Visible && !_isDuePickerDroppedDown)
-            {
-                CommitDueDateFromPicker();
-            }
-        };
-
-        todoDataGridView.Controls.Add(_dueDatePicker);
-    }
-
-    private void ShowDueDatePicker(int rowIndex, int colIndex)
-    {
-        if (_dueDatePicker == null) return;
-
-        var rect = todoDataGridView.GetCellDisplayRectangle(colIndex, rowIndex, true);
-        _dueDatePicker.Bounds = new System.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-
-        var todo = todoDataGridView.Rows[rowIndex].DataBoundItem as Todo;
-        if (todo != null && todo.DueDate.HasValue)
-        {
-            _dueDatePicker.Value = todo.DueDate.Value;
-            _dueDatePicker.Checked = true;
-        }
-        else
-        {
-            _dueDatePicker.Value = DateTime.Now;
-            _dueDatePicker.Checked = false;
-        }
-
-        _dueDateRowIndex = rowIndex;
-        _dueDateColIndex = colIndex;
-        _isDuePickerDroppedDown = false;
-        _dueDatePicker.Visible = true;
-        _dueDatePicker.BringToFront();
-        _dueDatePicker.Focus();
-    }
-
-    private void HideDueDatePicker()
-    {
-        if (_dueDatePicker == null) return;
-        _dueDatePicker.Visible = false;
-        _isDuePickerDroppedDown = false;
-        _dueDateRowIndex = _dueDateColIndex = -1;
-    }
-
-    private void CommitDueDateFromPicker()
-    {
-        if (_dueDatePicker == null || _dueDateRowIndex < 0) return;
-
-        var row = todoDataGridView.Rows[_dueDateRowIndex];
-        var todo = row.DataBoundItem as Todo;
-        if (todo == null)
-        {
-            HideDueDatePicker();
-            return;
-        }
-
-        todo.DueDate = _dueDatePicker.Checked ? _dueDatePicker.Value : null;
-
-        _todoService.Update(todo);
-        LoadTodos();
-
-        HideDueDatePicker();
-    }
-
-    private void todoDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
-    {
-        if (e.RowIndex < 0) return;
-        var col = todoDataGridView.Columns[e.ColumnIndex];
-        if (col != null && col.Name == "colDueDate")
-        {
-            ShowDueDatePicker(e.RowIndex, e.ColumnIndex);
-        }
-    }
-
-    private void todoDataGridView_CellFormatting(object sender,
-        System.Windows.Forms.DataGridViewCellFormattingEventArgs e)
-    {
-        if (e.RowIndex < 0) return;
-        var grid = this.todoDataGridView;
-        var column = grid.Columns[e.ColumnIndex];
-        if (column == null || column.Name != "colDueDate") return;
-
-        var row = grid.Rows[e.RowIndex];
-        var data = row.DataBoundItem as Todo;
-        if (data == null) return;
-
-        e.CellStyle.ForeColor = grid.DefaultCellStyle.ForeColor;
-        e.CellStyle.SelectionForeColor = grid.DefaultCellStyle.SelectionForeColor;
-
-        if (!data.IsDone && data.DueDate.HasValue)
-        {
-            var now = DateTime.Now;
-            var due = data.DueDate.Value;
-            if (due <= now.AddDays(1))
-            {
-                e.CellStyle.ForeColor = System.Drawing.Color.Red;
-                e.CellStyle.SelectionForeColor = System.Drawing.Color.Red;
-            }
-        }
-    }
+    //private void btnShowChart_Click(object sender, EventArgs e)
+    //{
+    //    var chartForm = new view.ChartForm(_controller, _currentTag!);
+    //    chartForm.ShowDialog();
+    //}
 }

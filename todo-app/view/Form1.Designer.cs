@@ -29,282 +29,189 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-        System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-        splitContainer1 = new System.Windows.Forms.SplitContainer();
-        tbCreateTag = new System.Windows.Forms.TextBox();
-        tagDataGridView = new System.Windows.Forms.DataGridView();
-        colTag = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colDeleteTag = new System.Windows.Forms.DataGridViewButtonColumn();
-        lblUsername = new System.Windows.Forms.Label();
-        tbCreateTodo = new System.Windows.Forms.TextBox();
-        todoDataGridView = new System.Windows.Forms.DataGridView();
-        colStatus = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-        colContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colDueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        colDelete = new System.Windows.Forms.DataGridViewButtonColumn();
-        lbTagName = new System.Windows.Forms.Label();
-        sfdExcel = new System.Windows.Forms.SaveFileDialog();
-        btnShowChart = new System.Windows.Forms.Button();
-        btnExportFileExcel = new System.Windows.Forms.Button();
-        ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-        splitContainer1.Panel1.SuspendLayout();
-        splitContainer1.Panel2.SuspendLayout();
-        splitContainer1.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)tagDataGridView).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)todoDataGridView).BeginInit();
+        sfdExcel = new SaveFileDialog();
+        panelHeader = new Panel();
+        btnToggleLeftSideBar = new Button();
+        panelLeftSideBar = new Panel();
+        dgvTags = new DataGridView();
+        tbCreateTag = new TextBox();
+        panelRightSideBar = new Panel();
+        panelMainContent = new Panel();
+        dgvTodos = new DataGridView();
+        dtpCreateTodo = new DateTimePicker();
+        tbCreateTodo = new TextBox();
+        lbTagName = new Label();
+        panelHeader.SuspendLayout();
+        panelLeftSideBar.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvTags).BeginInit();
+        panelMainContent.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvTodos).BeginInit();
         SuspendLayout();
         // 
-        // splitContainer1
+        // panelHeader
         // 
-        splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-        splitContainer1.Location = new System.Drawing.Point(0, 0);
-        splitContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-        splitContainer1.Name = "splitContainer1";
+        panelHeader.BackColor = SystemColors.MenuHighlight;
+        panelHeader.Controls.Add(btnToggleLeftSideBar);
+        panelHeader.Dock = DockStyle.Top;
+        panelHeader.Location = new Point(0, 0);
+        panelHeader.Name = "panelHeader";
+        panelHeader.Size = new Size(1264, 50);
+        panelHeader.TabIndex = 0;
         // 
-        // splitContainer1.Panel1
+        // btnToggleLeftSideBar
         // 
-        splitContainer1.Panel1.Controls.Add(btnExportFileExcel);
-        splitContainer1.Panel1.Controls.Add(tbCreateTag);
-        splitContainer1.Panel1.Controls.Add(tagDataGridView);
-        splitContainer1.Panel1.Controls.Add(lblUsername);
+        btnToggleLeftSideBar.Dock = DockStyle.Left;
+        btnToggleLeftSideBar.FlatAppearance.BorderSize = 0;
+        btnToggleLeftSideBar.FlatStyle = FlatStyle.Flat;
+        btnToggleLeftSideBar.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+        btnToggleLeftSideBar.ForeColor = SystemColors.Window;
+        btnToggleLeftSideBar.Location = new Point(0, 0);
+        btnToggleLeftSideBar.Name = "btnToggleLeftSideBar";
+        btnToggleLeftSideBar.Size = new Size(60, 50);
+        btnToggleLeftSideBar.TabIndex = 0;
+        btnToggleLeftSideBar.Text = "| | |";
+        btnToggleLeftSideBar.UseVisualStyleBackColor = true;
+        btnToggleLeftSideBar.Click += btnToggleLeftSideBar_Click;
         // 
-        // splitContainer1.Panel2
+        // panelLeftSideBar
         // 
-        splitContainer1.Panel2.Controls.Add(btnShowChart);
-        splitContainer1.Panel2.Controls.Add(tbCreateTodo);
-        splitContainer1.Panel2.Controls.Add(todoDataGridView);
-        splitContainer1.Panel2.Controls.Add(lbTagName);
-        splitContainer1.Size = new System.Drawing.Size(1184, 661);
-        splitContainer1.SplitterDistance = 310;
-        splitContainer1.SplitterWidth = 5;
-        splitContainer1.TabIndex = 0;
-        splitContainer1.Text = "splitContainer1";
+        panelLeftSideBar.BackColor = SystemColors.Window;
+        panelLeftSideBar.Controls.Add(dgvTags);
+        panelLeftSideBar.Controls.Add(tbCreateTag);
+        panelLeftSideBar.Dock = DockStyle.Left;
+        panelLeftSideBar.Location = new Point(0, 50);
+        panelLeftSideBar.Name = "panelLeftSideBar";
+        panelLeftSideBar.Size = new Size(250, 671);
+        panelLeftSideBar.TabIndex = 1;
+        // 
+        // dgvTags
+        // 
+        dgvTags.AllowUserToAddRows = false;
+        dgvTags.AllowUserToDeleteRows = false;
+        dgvTags.AllowUserToOrderColumns = true;
+        dgvTags.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        dgvTags.BackgroundColor = SystemColors.Window;
+        dgvTags.BorderStyle = BorderStyle.None;
+        dgvTags.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvTags.Dock = DockStyle.Fill;
+        dgvTags.Location = new Point(0, 27);
+        dgvTags.Name = "dgvTags";
+        dgvTags.ReadOnly = true;
+        dgvTags.Size = new Size(250, 644);
+        dgvTags.TabIndex = 1;
+        dgvTags.CellClick += dgvTags_CellClick;
         // 
         // tbCreateTag
         // 
-        tbCreateTag.Dock = System.Windows.Forms.DockStyle.Top;
-        tbCreateTag.Location = new System.Drawing.Point(0, 31);
+        tbCreateTag.Dock = DockStyle.Top;
+        tbCreateTag.Font = new Font("Segoe UI", 11F);
+        tbCreateTag.Location = new Point(0, 0);
         tbCreateTag.Name = "tbCreateTag";
-        tbCreateTag.PlaceholderText = "+ Thêm danh sách";
-        tbCreateTag.Size = new System.Drawing.Size(310, 23);
-        tbCreateTag.TabIndex = 5;
+        tbCreateTag.PlaceholderText = "+ Danh sách mới";
+        tbCreateTag.Size = new Size(250, 27);
+        tbCreateTag.TabIndex = 0;
         tbCreateTag.KeyDown += tbCreateTag_KeyDown;
         // 
-        // tagDataGridView
+        // panelRightSideBar
         // 
-        tagDataGridView.AllowUserToAddRows = false;
-        tagDataGridView.AllowUserToDeleteRows = false;
-        tagDataGridView.AllowUserToOrderColumns = true;
-        tagDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-        tagDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-        tagDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-        tagDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        tagDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colTag, colDeleteTag });
-        tagDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-        tagDataGridView.Location = new System.Drawing.Point(0, 31);
-        tagDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-        tagDataGridView.Name = "tagDataGridView";
-        tagDataGridView.RowHeadersWidth = 51;
-        tagDataGridView.Size = new System.Drawing.Size(310, 630);
-        tagDataGridView.TabIndex = 4;
-        tagDataGridView.Text = "dataGridView2";
-        tagDataGridView.CellClick += tagDataGridView_CellClick;
-        tagDataGridView.CellContentClick += tagDataGridView_CellContentClick;
+        panelRightSideBar.BackColor = SystemColors.Window;
+        panelRightSideBar.Dock = DockStyle.Right;
+        panelRightSideBar.Location = new Point(964, 50);
+        panelRightSideBar.Name = "panelRightSideBar";
+        panelRightSideBar.Size = new Size(300, 671);
+        panelRightSideBar.TabIndex = 2;
         // 
-        // colTag
+        // panelMainContent
         // 
-        colTag.HeaderText = "Danh sách";
-        colTag.MinimumWidth = 6;
-        colTag.Name = "colTag";
+        panelMainContent.BackColor = SystemColors.Control;
+        panelMainContent.Controls.Add(dgvTodos);
+        panelMainContent.Controls.Add(dtpCreateTodo);
+        panelMainContent.Controls.Add(tbCreateTodo);
+        panelMainContent.Controls.Add(lbTagName);
+        panelMainContent.Dock = DockStyle.Fill;
+        panelMainContent.Location = new Point(250, 50);
+        panelMainContent.Name = "panelMainContent";
+        panelMainContent.Size = new Size(714, 671);
+        panelMainContent.TabIndex = 3;
         // 
-        // colDeleteTag
+        // dgvTodos
         // 
-        colDeleteTag.HeaderText = "Xóa";
-        colDeleteTag.Name = "colDeleteTag";
+        dgvTodos.AllowUserToAddRows = false;
+        dgvTodos.AllowUserToDeleteRows = false;
+        dgvTodos.BackgroundColor = SystemColors.Control;
+        dgvTodos.BorderStyle = BorderStyle.None;
+        dgvTodos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvTodos.Location = new Point(0, 87);
+        dgvTodos.Name = "dgvTodos";
+        dgvTodos.ReadOnly = true;
+        dgvTodos.Size = new Size(714, 584);
+        dgvTodos.TabIndex = 3;
         // 
-        // lblUsername
+        // dtpCreateTodo
         // 
-        colPriority = new System.Windows.Forms.DataGridViewComboBoxColumn();
-        colPriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        colPriority.HeaderText = "Ưu tiên";
-        colPriority.MinimumWidth = 6;
-        colPriority.Name = "colPriority";
-        colPriority.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
-        colPriority.Items.AddRange(new object[] { "3 - Cao", "2 - Trung bình", "1 - Thấp" });
-
-        lblUsername.Dock = System.Windows.Forms.DockStyle.Top;
-        lblUsername.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-        lblUsername.Location = new System.Drawing.Point(0, 0);
-        lblUsername.Name = "lblUsername";
-        lblUsername.Size = new System.Drawing.Size(310, 31);
-        lblUsername.TabIndex = 1;
-        lblUsername.Text = "Hi, ";
-        lblUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        dtpCreateTodo.Format = DateTimePickerFormat.Short;
+        dtpCreateTodo.Location = new Point(6, 58);
+        dtpCreateTodo.Name = "dtpCreateTodo";
+        dtpCreateTodo.Size = new Size(102, 23);
+        dtpCreateTodo.TabIndex = 2;
         // 
         // tbCreateTodo
         // 
-        tbCreateTodo.Dock = System.Windows.Forms.DockStyle.Top;
-        tbCreateTodo.Location = new System.Drawing.Point(0, 54);
+        tbCreateTodo.Dock = DockStyle.Top;
+        tbCreateTodo.Font = new Font("Segoe UI", 11F);
+        tbCreateTodo.Location = new Point(0, 25);
         tbCreateTodo.Name = "tbCreateTodo";
         tbCreateTodo.PlaceholderText = "+ Thêm tác vụ";
-        tbCreateTodo.Size = new System.Drawing.Size(869, 23);
-        tbCreateTodo.TabIndex = 3;
+        tbCreateTodo.Size = new Size(714, 27);
+        tbCreateTodo.TabIndex = 1;
         tbCreateTodo.KeyDown += tbCreateTodo_KeyDown;
-
-        lblPriority = new System.Windows.Forms.Label();
-        lblPriority.Text = "Mức độ ưu tiên:";
-        lblPriority.Location = new System.Drawing.Point(0, 80);
-        lblPriority.Size = new System.Drawing.Size(120, 23);
-        lblPriority.Name = "lblPriority";
-        splitContainer1.Panel2.Controls.Add(lblPriority);
-
-        // ComboBox chọn mức độ ưu tiên
-        cbPriority = new System.Windows.Forms.ComboBox();
-        cbPriority.Name = "cbPriority";
-        cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        cbPriority.Items.AddRange(new object[] {
-            "3 - Cao",
-            "2 - Trung bình",
-            "1 - Thấp"
-        });
-        cbPriority.SelectedIndex = 2; // mặc định là "1 - Thấp"
-        cbPriority.Location = new System.Drawing.Point(130, 80);
-        cbPriority.Size = new System.Drawing.Size(150, 23);
-        splitContainer1.Panel2.Controls.Add(cbPriority);
-        // 
-        // todoDataGridView
-        // 
-        todoDataGridView.AllowUserToAddRows = false;
-        todoDataGridView.AllowUserToDeleteRows = false;
-        todoDataGridView.AllowUserToOrderColumns = true;
-        todoDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-        todoDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-        todoDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-        todoDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        todoDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colStatus, colContent, colPriority, colDueDate, colDelete });
-        todoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-        todoDataGridView.Location = new System.Drawing.Point(0, 54);
-        todoDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-        todoDataGridView.Name = "todoDataGridView";
-        todoDataGridView.RowHeadersWidth = 51;
-        todoDataGridView.Size = new System.Drawing.Size(869, 607);
-        todoDataGridView.TabIndex = 2;
-        todoDataGridView.Text = "dataGridView1";
-        todoDataGridView.CellContentClick += todoDataGridView_CellContentClick;
-        todoDataGridView.CellFormatting += todoDataGridView_CellFormatting;
-        todoDataGridView.CellValueChanged += todoDataGridView_CellValueChanged;
-        // 
-        // colStatus
-        // 
-        colStatus.HeaderText = "Trạng thái";
-        colStatus.MinimumWidth = 6;
-        colStatus.Name = "colStatus";
-        // 
-        // colContent
-        // 
-        colContent.HeaderText = "Nội dung";
-        colContent.MinimumWidth = 6;
-        colContent.Name = "colContent";
-        // 
-        // colDueDate
-        // 
-        colDueDate.DataPropertyName = "DueDate";
-        dataGridViewCellStyle1.Format = "g";
-        dataGridViewCellStyle1.NullValue = null;
-        colDueDate.DefaultCellStyle = dataGridViewCellStyle1;
-        colDueDate.HeaderText = "Hạn chót";
-        colDueDate.MinimumWidth = 6;
-        colDueDate.Name = "colDueDate";
-        // 
-        // colDelete
-        // 
-        colDelete.HeaderText = "Xóa";
-        colDelete.MinimumWidth = 6;
-        colDelete.Name = "colDelete";
         // 
         // lbTagName
         // 
-        lbTagName.Dock = System.Windows.Forms.DockStyle.Top;
-        lbTagName.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-        lbTagName.Location = new System.Drawing.Point(0, 0);
+        lbTagName.AutoSize = true;
+        lbTagName.Dock = DockStyle.Top;
+        lbTagName.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+        lbTagName.Location = new Point(0, 0);
         lbTagName.Name = "lbTagName";
-        lbTagName.Size = new System.Drawing.Size(869, 54);
+        lbTagName.Size = new Size(63, 25);
         lbTagName.TabIndex = 0;
-        lbTagName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-        // 
-        // btnShowChart
-        // 
-        btnShowChart.Dock = System.Windows.Forms.DockStyle.Bottom;
-        btnShowChart.Location = new System.Drawing.Point(0, 632);
-        btnShowChart.Name = "btnShowChart";
-        btnShowChart.Size = new System.Drawing.Size(869, 29);
-        btnShowChart.TabIndex = 7;
-        btnShowChart.Text = "Vẽ biểu đồ";
-        btnShowChart.UseVisualStyleBackColor = true;
-        // 
-        // btnExportFileExcel
-        // 
-        btnExportFileExcel.Dock = System.Windows.Forms.DockStyle.Bottom;
-        btnExportFileExcel.Location = new System.Drawing.Point(0, 632);
-        btnExportFileExcel.Name = "btnExportFileExcel";
-        btnExportFileExcel.Size = new System.Drawing.Size(310, 29);
-        btnExportFileExcel.TabIndex = 6;
-        btnExportFileExcel.Text = "Xuất file excel";
-        btnExportFileExcel.UseVisualStyleBackColor = true;
+        lbTagName.Text = "label1";
         // 
         // Form1
         // 
-        AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-        AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        ClientSize = new System.Drawing.Size(1184, 661);
-        Controls.Add(splitContainer1);
-        Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(1264, 721);
+        Controls.Add(panelMainContent);
+        Controls.Add(panelRightSideBar);
+        Controls.Add(panelLeftSideBar);
+        Controls.Add(panelHeader);
+        Margin = new Padding(3, 4, 3, 4);
+        Name = "Form1";
+        StartPosition = FormStartPosition.CenterScreen;
         Text = "Form1";
         Load += Form1_Load;
-        splitContainer1.Panel1.ResumeLayout(false);
-        splitContainer1.Panel1.PerformLayout();
-        splitContainer1.Panel2.ResumeLayout(false);
-        splitContainer1.Panel2.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-        splitContainer1.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)tagDataGridView).EndInit();
-        ((System.ComponentModel.ISupportInitialize)todoDataGridView).EndInit();
+        panelHeader.ResumeLayout(false);
+        panelLeftSideBar.ResumeLayout(false);
+        panelLeftSideBar.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvTags).EndInit();
+        panelMainContent.ResumeLayout(false);
+        panelMainContent.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvTodos).EndInit();
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Button btnShowChart;
-
-    private System.Windows.Forms.TextBox tbCreateTag;
-
-    private System.Windows.Forms.TextBox tbCreateTodo;
-
-    private System.Windows.Forms.DataGridViewButtonColumn colDeleteTag;
-
-    private System.Windows.Forms.DataGridViewTextBoxColumn colTag;
-
-    private System.Windows.Forms.DataGridViewComboBoxColumn colPriority;
-
-    private System.Windows.Forms.DataGridView tagDataGridView;
-
-    private System.Windows.Forms.ComboBox cbPriority;
-    private System.Windows.Forms.Label lblPriority;
-
-    private System.Windows.Forms.DataGridViewCheckBoxColumn colStatus;
-    private System.Windows.Forms.DataGridViewTextBoxColumn colContent;
-    private System.Windows.Forms.DataGridViewTextBoxColumn colDueDate;
-    private System.Windows.Forms.DataGridViewButtonColumn colDelete;
-
-    private System.Windows.Forms.DataGridView todoDataGridView;
-
-    private System.Windows.Forms.Label lbTagName;
-
-    private System.Windows.Forms.Label lblUsername;
-
-    private System.Windows.Forms.SplitContainer splitContainer1;
-
     #endregion
-
-    private System.Windows.Forms.Button btnExportFileExcel;
     private System.Windows.Forms.SaveFileDialog sfdExcel;
+    private Panel panelHeader;
+    private Panel panelLeftSideBar;
+    private Panel panelRightSideBar;
+    private Panel panelMainContent;
+    private Button btnToggleLeftSideBar;
+    private DataGridView dgvTags;
+    private TextBox tbCreateTag;
+    private TextBox tbCreateTodo;
+    private Label lbTagName;
+    private DataGridView dgvTodos;
+    private DateTimePicker dtpCreateTodo;
 }
