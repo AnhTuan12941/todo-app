@@ -6,7 +6,7 @@ public partial class LoginForm : Form
 {
     private Controller _controller;
     
-    private Form1 _form1;
+    private MainForm _form1;
     
     public LoginForm(Controller controller)
     {

@@ -14,19 +14,24 @@ public class TodoService
         _todoRepository = controller.TodoRepository;
     }
     
-    public void Create(string? content, Tag? tag)
+    public void Create(string? content, DateTime? dueDate, Tag? tag)
     {
         if (string.IsNullOrEmpty(content))
         {
             throw new AppException("Nội dung công việc không hợp lệ.");
         }
+        if (dueDate == null) 
+        {
+            throw new AppException("Ngày hết hạn không hợp lệ.");
+        }
         if (tag == null)
         {
-            throw new AppException("Tag không hợp lệ.");
+            throw new AppException("Danh sách không hợp lệ.");
         }
         
         Todo todo = new Todo();
         todo.Content = content;
+        todo.DueDate = dueDate.Value;
         todo.TagId = tag.Id;
         _todoRepository.Create(todo);
     }

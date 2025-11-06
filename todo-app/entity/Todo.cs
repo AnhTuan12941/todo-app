@@ -8,5 +8,4 @@ public class Todo
     public bool IsDone { get; set; } = false;
     public DateTime? DueDate { get; set; }
     public int TagId { get; set; }
-    public int Priority { get; set; } = 1;
 }

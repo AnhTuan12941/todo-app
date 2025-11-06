@@ -16,7 +16,7 @@ public class Controller
     public FileService FileService;
     public ChartService ChartService;
 
-    public Form1 Form1;
+    public MainForm Form1;
 
     public LoggedInAccount LoggedInAccount;
     
@@ -34,6 +34,6 @@ public class Controller
         FileService = new FileService(this);
         ChartService = new ChartService(this);
 
-        Form1 = new Form1(this);
+        Form1 = new MainForm(this);
     }
 }
