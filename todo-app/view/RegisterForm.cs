@@ -22,6 +22,12 @@ public partial class RegisterForm : Form
         string confirmPassword = tBCofirmPassword.Text;
         _accountService.Register(username, password, confirmPassword);
 
+        MessageBox.Show("Đăng ký thành công!", "Thông báo", MessageBoxButtons.OK);
+        Close();
+    }
+
+    private void btnLogin_Click(object sender, EventArgs e)
+    {
         Close();
     }
 }
