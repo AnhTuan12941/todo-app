@@ -309,6 +309,12 @@ public partial class MainForm : Form
         {
             return;
         }
+        
+        if (dgvTodos.Columns[e.ColumnIndex].Name != "IsDone")
+        {
+            return;
+        }
+
 
         var selectedTodo = dgvTodos.Rows[e.RowIndex].DataBoundItem as Todo;
         if (selectedTodo == null)
