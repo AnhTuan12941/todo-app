@@ -1,4 +1,4 @@
-﻿﻿using todo_app.controller;
+﻿using todo_app.controller;
 
 namespace todo_app;
 
@@ -28,6 +28,7 @@ public partial class LoginForm : Form
         _controller.AccountService.Login(username, password);
 
         this.Close();
+        _form1.Reload();
         _form1.Show();
     }
 }

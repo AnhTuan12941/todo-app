@@ -21,6 +21,7 @@ public partial class MainForm : Form
     {
         InitializeComponent();
     }
+    
     public MainForm(Controller controller)
     {
         InitializeComponent();
@@ -30,6 +31,12 @@ public partial class MainForm : Form
         _fileService = controller.FileService;
 
         _loggedInAccount = controller.LoggedInAccount;
+    }
+
+    public void Reload()
+    {
+        LoadTags();
+        HideRightSideBar();
     }
 
     private void Form1_Load(object sender, EventArgs e)
