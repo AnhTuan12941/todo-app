@@ -353,4 +353,24 @@ public partial class MainForm : Form
         List<Todo> todos = _todoService.SearchTodos(keyword);
         LoadTodos(todos);
     }
+
+    private void miLogout_Click(object sender, EventArgs e)
+    {
+        _loggedInAccount.Logout();
+        Hide();
+        LoginForm loginForm = new LoginForm(_controller);
+        loginForm.Show();
+    }
+
+    private void miLogin_Click(object sender, EventArgs e)
+    {
+        var loginForm = new LoginForm(_controller);
+        loginForm.ShowDialog();
+    }
+
+    private void miRegister_Click(object sender, EventArgs e)
+    {
+        var registerForm = new RegisterForm(_controller);
+        registerForm.ShowDialog();
+    }
 }
