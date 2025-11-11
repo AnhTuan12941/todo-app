@@ -113,4 +113,22 @@ public class TodoService
 
         return todos; // Trả về danh sách đã lọc theo cả Content và Note
     }
+    public List<Todo> SortByDueDate(int tagId, bool ascending = true)
+    {
+        var todos = _todoRepository.FindByTagId(tagId).ToList();
+        var sortedTodos = ascending
+        ? todos.OrderBy(t => t.DueDate).ToList()
+        : todos.OrderByDescending(t => t.DueDate).ToList();
+        return sortedTodos;
+    }
+
+    public List<Todo> SortByContent(int tagId, bool ascending = true)
+    {
+        var todos = _todoRepository.FindByTagId(tagId).ToList();
+        var sortedTodos = ascending
+        ? todos.OrderBy(t => t.Content, StringComparer.OrdinalIgnoreCase).ToList()
+        : todos.OrderByDescending(t => t.Content, StringComparer.OrdinalIgnoreCase).ToList();
+
+        return sortedTodos;
+    }
 }   

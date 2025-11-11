@@ -1,5 +1,6 @@
 using todo_app.controller;
 using todo_app.entity;
+using todo_app.exception;
 using todo_app.service;
 using todo_app.view;
 
@@ -351,6 +352,33 @@ public partial class MainForm : Form
         }
 
         List<Todo> todos = _todoService.SearchTodos(keyword);
+        LoadTodos(todos);
+    }
+
+    private void cbSort_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (_currentTag == null)
+        {
+            throw new AppException("Chưa chọn thẻ nào để sắp xếp tác vụ.");
+        }
+        if (cbSort.SelectedIndex == 0)
+        {
+            SortTodosByDueDate(true);
+        }
+        else if(cbSort.SelectedIndex ==1)
+        {
+            SortTodosByContent(true);
+
+        }
+    }
+    private void SortTodosByDueDate(bool ascending)
+    {
+        var todos = _todoService.SortByDueDate(_currentTag!.Id, ascending);
+        LoadTodos(todos);
+    }
+    private void SortTodosByContent(bool ascending)
+    {
+        var todos = _todoService.SortByContent(_currentTag!.Id, ascending);
         LoadTodos(todos);
     }
 }
