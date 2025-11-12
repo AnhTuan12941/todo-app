@@ -30,9 +30,9 @@ partial class MainForm
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         sfdExcel = new SaveFileDialog();
         panelHeader = new Panel();
@@ -60,6 +60,7 @@ partial class MainForm
         dgvTodos = new DataGridView();
         panel2 = new Panel();
         panel5 = new Panel();
+        cbSort = new ComboBox();
         lbTagName = new Label();
         btnTagMenu = new Button();
         panel4 = new Panel();
@@ -200,8 +201,8 @@ partial class MainForm
         dgvTags.Name = "dgvTags";
         dgvTags.ReadOnly = true;
         dgvTags.RowHeadersVisible = false;
-        dataGridViewCellStyle4.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        dgvTags.RowsDefaultCellStyle = dataGridViewCellStyle4;
+        dataGridViewCellStyle1.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        dgvTags.RowsDefaultCellStyle = dataGridViewCellStyle1;
         dgvTags.Size = new Size(250, 644);
         dgvTags.TabIndex = 1;
         dgvTags.CellClick += dgvTags_CellClick;
@@ -371,14 +372,14 @@ partial class MainForm
         dgvTodos.BackgroundColor = SystemColors.Control;
         dgvTodos.BorderStyle = BorderStyle.None;
         dgvTodos.CellBorderStyle = DataGridViewCellBorderStyle.None;
-        dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle5.BackColor = SystemColors.Control;
-        dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F);
-        dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-        dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-        dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-        dgvTodos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+        dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        dataGridViewCellStyle2.BackColor = SystemColors.Control;
+        dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F);
+        dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+        dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+        dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+        dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+        dgvTodos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
         dgvTodos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvTodos.ColumnHeadersVisible = false;
         dgvTodos.Dock = DockStyle.Fill;
@@ -386,8 +387,8 @@ partial class MainForm
         dgvTodos.Name = "dgvTodos";
         dgvTodos.ReadOnly = true;
         dgvTodos.RowHeadersVisible = false;
-        dataGridViewCellStyle6.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        dgvTodos.RowsDefaultCellStyle = dataGridViewCellStyle6;
+        dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        dgvTodos.RowsDefaultCellStyle = dataGridViewCellStyle3;
         dgvTodos.Size = new Size(714, 571);
         dgvTodos.TabIndex = 3;
         dgvTodos.CellClick += dgvTodos_CellClick;
@@ -413,6 +414,17 @@ partial class MainForm
         panel5.Name = "panel5";
         panel5.Size = new Size(714, 39);
         panel5.TabIndex = 8;
+        // 
+        // cbSort
+        // 
+        cbSort.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        cbSort.FormattingEnabled = true;
+        cbSort.Items.AddRange(new object[] { "Theo hạn", "Theo bảng chữ cái" });
+        cbSort.Location = new Point(637, 12);
+        cbSort.Name = "cbSort";
+        cbSort.Size = new Size(151, 28);
+        cbSort.TabIndex = 7;
+        cbSort.SelectedIndexChanged += cbSort_SelectedIndexChanged;
         // 
         // lbTagName
         // 
@@ -501,40 +513,37 @@ partial class MainForm
         // 
         cmsUserMenu.Items.AddRange(new ToolStripItem[] { miExportFile, miLogin, miRegister, toolStripSeparator1, miLogout });
         cmsUserMenu.Name = "cmsUserMenu";
-        cmsUserMenu.Size = new Size(181, 120);
+        cmsUserMenu.Size = new Size(147, 98);
         // 
         // miExportFile
         // 
         miExportFile.Name = "miExportFile";
-        miExportFile.Size = new Size(180, 22);
+        miExportFile.Size = new Size(146, 22);
         miExportFile.Text = "Xuất file Excel";
         miExportFile.Click += miExportFile_Click;
         // 
         // miLogin
         // 
         miLogin.Name = "miLogin";
-        miLogin.Size = new Size(180, 22);
+        miLogin.Size = new Size(146, 22);
         miLogin.Text = "Đăng nhập";
-        miLogin.Click += miLogin_Click;
         // 
         // miRegister
         // 
         miRegister.Name = "miRegister";
-        miRegister.Size = new Size(180, 22);
+        miRegister.Size = new Size(146, 22);
         miRegister.Text = "Đăng ký";
-        miRegister.Click += miRegister_Click;
         // 
         // toolStripSeparator1
         // 
         toolStripSeparator1.Name = "toolStripSeparator1";
-        toolStripSeparator1.Size = new Size(177, 6);
+        toolStripSeparator1.Size = new Size(143, 6);
         // 
         // miLogout
         // 
         miLogout.Name = "miLogout";
-        miLogout.Size = new Size(180, 22);
+        miLogout.Size = new Size(146, 22);
         miLogout.Text = "Đăng xuất";
-        miLogout.Click += miLogout_Click;
         // 
         // cmsTagMenu
         // 
@@ -611,10 +620,10 @@ partial class MainForm
     private Button btnToggleLeftSideBar;
     private System.Windows.Forms.DataGridView dgvTags;
     private TextBox tbCreateTag;
-    private System.Windows.Forms.TextBox tbCreateTodo;
+    private TextBox tbCreateTodo;
     private System.Windows.Forms.Label lbTagName;
     private System.Windows.Forms.DataGridView dgvTodos;
-    private System.Windows.Forms.DateTimePicker dtpCreateTodo;
+    private DateTimePicker dtpCreateTodo;
     private Button btnHideRightSideBar;
     private Button btnDeleteTodo;
     private Label lbCurrentTodoName;
@@ -627,7 +636,7 @@ partial class MainForm
     private Button btnUserMenu;
     private ContextMenuStrip cmsUserMenu;
     private ToolStripMenuItem miExportFile;
-    private System.Windows.Forms.ToolStripMenuItem miLogin;
+    private ToolStripMenuItem miLogin;
     private ToolStripMenuItem miRegister;
     private ToolStripSeparator toolStripSeparator1;
     private ToolStripMenuItem miLogout;
@@ -644,4 +653,5 @@ partial class MainForm
     private Button btnSearch;
     private Label lbCurrentTodoTagName;
     private Label label1;
+    private ComboBox cbSort;
 }
