@@ -407,6 +407,7 @@ partial class MainForm
         // 
         // panel5
         // 
+        panel5.Controls.Add(cbSort);
         panel5.Controls.Add(lbTagName);
         panel5.Controls.Add(btnTagMenu);
         panel5.Dock = DockStyle.Fill;
@@ -420,9 +421,9 @@ partial class MainForm
         cbSort.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         cbSort.FormattingEnabled = true;
         cbSort.Items.AddRange(new object[] { "Theo hạn", "Theo bảng chữ cái" });
-        cbSort.Location = new Point(637, 12);
+        cbSort.Location = new Point(557, 10);
         cbSort.Name = "cbSort";
-        cbSort.Size = new Size(151, 28);
+        cbSort.Size = new Size(151, 23);
         cbSort.TabIndex = 7;
         cbSort.SelectedIndexChanged += cbSort_SelectedIndexChanged;
         // 
