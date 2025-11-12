@@ -46,6 +46,35 @@ public class TagRepository : Repository
         return tags;
     }
 
+    public Tag FindByTodoId(int id)
+    {
+        using (SqlConnection connection = Database.GetConnection())
+        {
+            string sql = @"SELECT t.Id, t.AccountId, t.Name 
+                           FROM Tags t
+                           INNER JOIN Todos td ON t.Id = td.TagId
+                           WHERE td.Id = @TodoId";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@TodoId", id);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Tag tag = new Tag
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            AccountId = reader.GetInt32(reader.GetOrdinal("AccountId")),
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
+                        };
+                        return tag;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public Tag? FindByName(string name)
     {
         using (SqlConnection connection = Database.GetConnection())
@@ -69,5 +98,18 @@ public class TagRepository : Repository
             }
         }
         return null;
+    }
+
+    public void Delete(int id)
+    {
+        using (SqlConnection connection = Database.GetConnection())
+        {
+            string sql = "DELETE FROM Tags WHERE Id = @Id";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }
