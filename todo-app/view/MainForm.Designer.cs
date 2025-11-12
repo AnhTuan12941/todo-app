@@ -425,6 +425,7 @@ partial class MainForm
         cbSort.Name = "cbSort";
         cbSort.Size = new Size(151, 23);
         cbSort.TabIndex = 7;
+        cbSort.Text = "- Sắp xếp -";
         cbSort.SelectedIndexChanged += cbSort_SelectedIndexChanged;
         // 
         // lbTagName
@@ -528,12 +529,14 @@ partial class MainForm
         miLogin.Name = "miLogin";
         miLogin.Size = new Size(146, 22);
         miLogin.Text = "Đăng nhập";
+        miLogin.Click += miLogin_Click;
         // 
         // miRegister
         // 
         miRegister.Name = "miRegister";
         miRegister.Size = new Size(146, 22);
         miRegister.Text = "Đăng ký";
+        miRegister.Click += miRegister_Click;
         // 
         // toolStripSeparator1
         // 
@@ -585,7 +588,7 @@ partial class MainForm
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Task Manager";
-        Load += Form1_Load;
+        Load += MainForm_Load;
         panelHeader.ResumeLayout(false);
         panelHeader.PerformLayout();
         panelLeftSideBar.ResumeLayout(false);

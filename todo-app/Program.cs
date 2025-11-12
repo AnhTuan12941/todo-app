@@ -17,7 +17,7 @@ namespace todo_app
             var controller = new controller.Controller();
             controller.Init();
             
-            Application.Run(controller.Form1);
+            Application.Run(controller.MainForm);
         }
     }
 }

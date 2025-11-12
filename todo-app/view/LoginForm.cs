@@ -6,13 +6,13 @@ public partial class LoginForm : Form
 {
     private Controller _controller;
     
-    private MainForm _form1;
+    private MainForm _mainForm;
     
     public LoginForm(Controller controller)
     {
         InitializeComponent();
         _controller = controller;
-        _form1 = _controller.Form1;
+        _mainForm = _controller.MainForm;
     }
 
     private void btnRegister_Click(object sender, EventArgs e)
@@ -27,8 +27,11 @@ public partial class LoginForm : Form
         string password = tBPassword.Text;
         _controller.AccountService.Login(username, password);
 
-        this.Close();
-        _form1.Reload();
-        _form1.Show();
+        MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK);
+        
+        Close();
+        
+        _mainForm.Reload();
+        _mainForm.Show();
     }
 }

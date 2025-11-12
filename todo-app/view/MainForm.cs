@@ -12,6 +12,8 @@ public partial class MainForm : Form
     private TagService _tagService;
     private TodoService _todoService;
     private FileService _fileService;
+    
+    private LoginForm _loginForm;
 
     private LoggedInAccount _loggedInAccount;
 
@@ -22,7 +24,7 @@ public partial class MainForm : Form
     {
         InitializeComponent();
     }
-    
+
     public MainForm(Controller controller)
     {
         InitializeComponent();
@@ -40,12 +42,17 @@ public partial class MainForm : Form
         HideRightSideBar();
     }
 
-    private void Form1_Load(object sender, EventArgs e)
+    private void MainForm_Load(object sender, EventArgs e)
     {
         if (!_loggedInAccount.IsLoggedIn())
         {
             var loginForm = new LoginForm(_controller);
             loginForm.ShowDialog();
+        }
+
+        if (!_loggedInAccount.IsLoggedIn())
+        {
+            Application.Exit();
         }
 
         LoadTags();
@@ -310,7 +317,7 @@ public partial class MainForm : Form
         {
             return;
         }
-        
+
         if (dgvTodos.Columns[e.ColumnIndex].Name != "IsDone")
         {
             return;
@@ -397,7 +404,7 @@ public partial class MainForm : Form
         {
             SortTodosByDueDate(true);
         }
-        else if(cbSort.SelectedIndex ==1)
+        else if (cbSort.SelectedIndex == 1)
         {
             SortTodosByContent(true);
 

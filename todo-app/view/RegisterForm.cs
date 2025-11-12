@@ -5,13 +5,11 @@ namespace todo_app;
 
 public partial class RegisterForm : Form
 {
-    private Controller _controller;
     private AccountService _accountService;
     
     public RegisterForm(Controller controller)
     {
         InitializeComponent();
-        _controller = controller;
         _accountService = controller.AccountService;
     }
 
