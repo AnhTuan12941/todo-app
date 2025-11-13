@@ -42,4 +42,9 @@ public class LoggedInAccount
         }
         return true;
     }
+    
+    public void Logout()
+    {
+        _account = null;
+    }
 }

@@ -34,19 +34,11 @@ BEGIN
         Id INT IDENTITY(1,1) PRIMARY KEY,
         Content NVARCHAR(200) NOT NULL,
         Note NVARCHAR(500) NULL,
-        IsDone BIT NOT NULL DEFAULT 0
-    );
-END
-GO
-
-IF OBJECT_ID('dbo.TodoTags', 'U') IS NULL
-BEGIN
-    CREATE TABLE dbo.TodoTags (
-        TodoId INT NOT NULL,
+        DueDate DATETIME NULL,
+        IsDone BIT NOT NULL DEFAULT 0,
         TagId INT NOT NULL,
-        CONSTRAINT PK_TodoTags PRIMARY KEY (TodoId, TagId),
-        CONSTRAINT FK_TodoTags_Todos FOREIGN KEY (TodoId) REFERENCES dbo.Todos(Id) ON DELETE CASCADE,
-        CONSTRAINT FK_TodoTags_Tags FOREIGN KEY (TagId) REFERENCES dbo.Tags(Id) ON DELETE CASCADE
+        Priority INT NOT NULL DEFAULT 1,
+        CONSTRAINT FK_Todos_Tags FOREIGN KEY (TagId) REFERENCES dbo.Tags(Id) ON DELETE CASCADE
     );
 END
 GO

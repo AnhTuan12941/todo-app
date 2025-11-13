@@ -5,13 +5,11 @@ namespace todo_app;
 
 public partial class RegisterForm : Form
 {
-    private Controller _controller;
     private AccountService _accountService;
     
     public RegisterForm(Controller controller)
     {
         InitializeComponent();
-        _controller = controller;
         _accountService = controller.AccountService;
     }
 
@@ -22,8 +20,12 @@ public partial class RegisterForm : Form
         string confirmPassword = tBCofirmPassword.Text;
         _accountService.Register(username, password, confirmPassword);
 
-        // Sau khi đăng ký thành công, chỉ cần đóng form này lại.
-        // Luồng thực thi sẽ tự động quay về LoginForm đang chờ.
-        this.Close();
+        MessageBox.Show("Đăng ký thành công!", "Thông báo", MessageBoxButtons.OK);
+        Close();
+    }
+
+    private void btnLogin_Click(object sender, EventArgs e)
+    {
+        Close();
     }
 }
