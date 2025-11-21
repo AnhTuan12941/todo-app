@@ -460,7 +460,7 @@ public partial class MainForm : Form
         var calendarForm = new CalendarForm(_controller, _currentTag!);
         calendarForm.ShowDialog();
     }
-}
+
     private void miChangePassword_Click(object sender, EventArgs e)
     {
         if (!_loggedInAccount.IsLoggedIn())

@@ -47,7 +47,6 @@ namespace todo_app.view
             _year = year;
             _month = month;
 
-
             string monthName = new DateTimeFormatInfo().GetMonthName(month);
             lbMonthName.Text = monthName + " " + year;
             DateTime startOfTheMonth = new DateTime(year, month, 1);
@@ -56,8 +55,8 @@ namespace todo_app.view
 
             for (int i = 1; i < week; i++)
             {
-                UserControlDay uc = new UserControlDay("", null);
-                flowLayoutPanel1.Controls.Add(uc);
+                UserControlDay ucd = new UserControlDay("", null);
+                flowLayoutPanel1.Controls.Add(ucd);
             }
 
             for (int i = 1; i <= day; i++)
@@ -67,8 +66,8 @@ namespace todo_app.view
                 List<Todo> todosForDay = _todos.Where(t => t.DueDate.HasValue &&
                     t.DueDate.Value.Date == currentDate.Date).ToList();
 
-                UserControlDay uc = new UserControlDay(i + "", todosForDay);
-                flowLayoutPanel1.Controls.Add(uc);
+                UserControlDay ucd = new UserControlDay(i + "", todosForDay);
+                flowLayoutPanel1.Controls.Add(ucd);
             }
         }
 

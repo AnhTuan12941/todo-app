@@ -70,11 +70,11 @@ partial class MainForm
         btnCreateTodo = new Button();
         cmsUserMenu = new ContextMenuStrip(components);
         miExportFile = new ToolStripMenuItem();
+        miChangePassword = new ToolStripMenuItem();
         miLogin = new ToolStripMenuItem();
         miRegister = new ToolStripMenuItem();
         toolStripSeparator1 = new ToolStripSeparator();
         miLogout = new ToolStripMenuItem();
-        miChangePassword = new ToolStripMenuItem();
         cmsTagMenu = new ContextMenuStrip(components);
         miDrawChart = new ToolStripMenuItem();
         toolStripSeparator2 = new ToolStripSeparator();
@@ -122,7 +122,6 @@ partial class MainForm
         btnSearch.Location = new Point(971, 12);
         btnSearch.Margin = new Padding(3, 4, 3, 4);
         btnSearch.Name = "btnSearch";
-        btnSearch.Size = new Size(80, 39);
         btnSearch.Size = new Size(29, 29);
         btnSearch.TabIndex = 4;
         btnSearch.UseVisualStyleBackColor = false;
@@ -550,10 +549,9 @@ partial class MainForm
         // cmsUserMenu
         // 
         cmsUserMenu.ImageScalingSize = new Size(20, 20);
-        cmsUserMenu.Items.AddRange(new ToolStripItem[] { miExportFile, miLogin, miRegister, toolStripSeparator1, miLogout });
         cmsUserMenu.Items.AddRange(new ToolStripItem[] { miExportFile, miChangePassword, miLogin, miRegister, toolStripSeparator1, miLogout });
         cmsUserMenu.Name = "cmsUserMenu";
-        cmsUserMenu.Size = new Size(172, 106);
+        cmsUserMenu.Size = new Size(172, 130);
         // 
         // miExportFile
         // 
@@ -561,6 +559,13 @@ partial class MainForm
         miExportFile.Size = new Size(171, 24);
         miExportFile.Text = "Xuất file Excel";
         miExportFile.Click += miExportFile_Click;
+        // 
+        // miChangePassword
+        // 
+        miChangePassword.Name = "miChangePassword";
+        miChangePassword.Size = new Size(171, 24);
+        miChangePassword.Text = "Đổi mật khẩu";
+        miChangePassword.Click += miChangePassword_Click;
         // 
         // miLogin
         // 
@@ -587,13 +592,6 @@ partial class MainForm
         miLogout.Size = new Size(171, 24);
         miLogout.Text = "Đăng xuất";
         miLogout.Click += miLogout_Click;
-        // 
-        // miChangePassword
-        // 
-        miChangePassword.Name = "miChangePassword";
-        miChangePassword.Size = new Size(146, 22);
-        miChangePassword.Text = "Đổi mật khẩu";
-        miChangePassword.Click += miChangePassword_Click;
         // 
         // cmsTagMenu
         // 
